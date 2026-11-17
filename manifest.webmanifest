@@ -1,0 +1,15 @@
+{
+  "name": "StudyOffline",
+  "short_name": "StudyOffline",
+  "description": "Read lessons and take notes with no internet. Everything syncs when you are back online.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF7F0",
+  "theme_color": "#2B6CB0",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

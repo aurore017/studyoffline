@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>studyOffline</title>
+  <meta name="description" content="An offline-first learning companion: read lessons and take notes with no internet, and sync when you are back online.">
+  <meta name="theme-color" content="#2B6CB0">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ Top status bar (always visible) ============ -->
+<header class="statusbar" id="statusbar">
+  <span class="brand">StudyOffline</span>
+
+  <span class="pill online" id="connPill" role="status" aria-live="polite">
+    <span class="pill-dot"></span><span id="connText">Online</span>
+  </span>
+
+  <span class="chip" id="pendingChip" hidden></span>
+  <button class="btn btn-primary btn-small" id="syncNowBtn" type="button" hidden>Sync now</button>
+
+  <span class="spacer"></span>
+
+  <span class="size-controls" aria-label="Text size">
+    <button class="icon-btn" id="fontSmaller" type="button" aria-label="Make text smaller" title="Smaller text">A&minus;</button>
+    <button class="icon-btn" id="fontLarger" type="button" aria-label="Make text larger" title="Larger text">A+</button>
+  </span>
+
+  <span class="user-box" id="userBox" hidden>
+    <span class="user-name" id="userName"></span>
+    <button class="link-btn" id="historyBtn" type="button">Sync history</button>
+    <button class="link-btn" id="logoutBtn" type="button">Log out</button>
+  </span>
+
+  <details class="demo" id="demoTools">
+    <summary>Demo tools</summary>
+    <div class="demo-panel">
+      <label><input type="checkbox" id="simOffline"> Simulate offline</label>
+      <label><input type="checkbox" id="simFail"> Simulate server failure</label>
+      <p class="demo-hint">For showing the offline behaviour without touching your real wifi.</p>
+    </div>
+  </details>
+</header>
+
+<!-- ============ Main screen (login, or lessons + notes) ============ -->
+<div id="screen"></div>
+
+<!-- ============ Messages ============ -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- ============ Sync history report ============ -->
+<dialog id="historyDialog" aria-labelledby="historyTitle">
+  <h2 id="historyTitle">Sync history</h2>
+  <p class="dialog-hint">When each of your notes was saved, edited, deleted and synced.</p>
+  <div class="table-wrap" id="historyBody"></div>
+  <div class="dialog-actions">
+    <button class="btn" id="historyDownload" type="button">Download CSV</button>
+    <button class="btn btn-primary" id="historyClose" type="button">Close</button>
+  </div>
+</dialog>
+
+<noscript>StudyOffline needs JavaScript to run.</noscript>
+
+<!-- Order matters: each file uses the ones above it -->
+<script src="js/store.js"></script>
+<script src="js/audit.js"></script>
+<script src="js/network.js"></script>
+<script src="js/server.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/content.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
