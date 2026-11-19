@@ -8,7 +8,7 @@
    IMPORTANT: when you change any app file, change CACHE_VERSION below so
    devices download the new files.
    ========================================================================== */
-var CACHE_VERSION = 'v1';
+var CACHE_VERSION = 'v4';
 var CACHE_NAME = 'studyoffline-shell-' + CACHE_VERSION;
 
 var APP_FILES = [

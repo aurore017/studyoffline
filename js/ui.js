@@ -75,6 +75,11 @@ window.SO = window.SO || {};
     chip.hidden = !(signedIn && pending > 0);
     chip.textContent = pending + (pending === 1 ? ' note' : ' notes') + ' waiting to sync';
 
+    var lastSync = SO.Store.get('lastSync', null);
+    var syncEl = $('lastSync');
+    syncEl.hidden = !(signedIn && lastSync);
+    if (lastSync) syncEl.textContent = 'Last synced: ' + timeLabel(lastSync);
+
     var btn = $('syncNowBtn');
     btn.hidden = !signedIn;
     btn.disabled = !online || syncing || pending === 0;
@@ -169,9 +174,12 @@ window.SO = window.SO || {};
     var list = $('lessonList');
     if (!list) return;
     var items = SO.Content.getLessons().map(function (lesson) {
+      var count = SO.Content.getNotes(lesson.id).length;
       var b = h('button', { class: 'lesson-item' + (lesson.id === currentLessonId ? ' active' : ''), type: 'button' },
         h('span', { text: lesson.title }),
-        h('span', { class: 'stored-mark', text: 'Stored ✓' }));
+        h('span', { class: 'lesson-tags' },
+          h('span', { class: 'stored-mark', text: 'Stored ✓' }),
+          h('span', { class: 'note-count', text: count + (count === 1 ? ' note' : ' notes') })));
       b.addEventListener('click', function () {
         flushNotes();
         currentLessonId = lesson.id;
@@ -209,8 +217,26 @@ window.SO = window.SO || {};
     var paragraphs = lesson.body.split(/\n\s*\n/).map(function (p) { return h('p', { text: p }); });
 
     var notesList = h('div', { id: 'notesList' });
+
+    // Search box: hides the notes that do not contain the typed words.
+    var search = h('input', { class: 'note-search', type: 'search', placeholder: 'Search my notes…', 'aria-label': 'Search my notes' });
+    var noMatch = h('p', { class: 'empty', hidden: '', text: 'No notes match your search.' });
+    search.addEventListener('input', function () {
+      var q = search.value.trim().toLowerCase();
+      var shown = 0;
+      Array.prototype.forEach.call(notesList.querySelectorAll('.note'), function (card) {
+        var text = card.querySelector('textarea').value.toLowerCase();
+        var match = text.indexOf(q) !== -1;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      noMatch.hidden = !(q && shown === 0);
+    });
+
     var newBtn = h('button', { class: 'btn btn-small', type: 'button', text: '+ New note' });
     newBtn.addEventListener('click', function () {
+      search.value = '';                                  // show every note again
+      search.dispatchEvent(new Event('input'));
       var empty = notesList.querySelector('.empty');
       if (empty) empty.remove();
       var card = noteCard(null, lesson.id);
@@ -225,6 +251,8 @@ window.SO = window.SO || {};
       h('section', { class: 'notes-block', 'aria-labelledby': 'notesTitle' },
         h('div', { class: 'notes-head' }, h('h2', { id: 'notesTitle', text: 'My notes' }), newBtn),
         h('p', { class: 'notes-hint', text: 'Notes save to this device as soon as you pause typing, online or offline. They sync to your account when you are online.' }),
+        search,
+        noMatch,
         notesList)
     );
 
@@ -415,13 +443,14 @@ window.SO = window.SO || {};
         }
       });
       SO.bus.on('queue', function () { updateStatusBar(); paintNotes(); });
-      SO.bus.on('notes', function () { updateStatusBar(); paintNotes(); });
+      SO.bus.on('notes', function () { updateStatusBar(); paintNotes(); renderLessonList(); });
       SO.bus.on('lessons', function () {
         if (!SO.Auth.isSignedIn()) return;
         if (!$('lessonList') || showingEmpty) renderApp();   // first lessons just arrived
         else renderLessonList();
       });
       SO.bus.on('sync', function (e) {
+        if (e.state === 'done') SO.Store.set('lastSync', Date.now());
         updateStatusBar();
         paintNotes();
         if (e.state === 'done' && e.count > 0) toast('Synced ' + e.count + (e.count === 1 ? ' note.' : ' notes.'), 'good');

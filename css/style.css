@@ -80,6 +80,7 @@ body {
   padding: 5px 12px; border-radius: 100px;
   background: var(--amber-bg); color: var(--amber);
 }
+.last-sync { font-size: 0.82rem; color: var(--soft); }
 
 .btn {
   font: inherit; font-size: 0.9rem; font-weight: 600;
@@ -171,6 +172,8 @@ body {
 .lesson-item:hover { background: var(--line); }
 .lesson-item.active { background: var(--green-bg); color: var(--green); font-weight: 600; }
 .stored-mark { font-size: 0.72rem; color: var(--green); white-space: nowrap; }
+.lesson-tags { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; font-weight: 400; }
+.note-count { font-size: 0.72rem; color: var(--soft); white-space: nowrap; }
 
 main { padding: 28px 32px 70px; min-width: 0; }
 .lesson-title { font-family: Georgia, "Times New Roman", serif; font-size: 1.9rem; line-height: 1.25; margin: 0 0 6px; }
@@ -183,6 +186,11 @@ main { padding: 28px 32px 70px; min-width: 0; }
 .notes-head h2 { font-size: 1.05rem; margin: 0; }
 .notes-hint { font-size: 0.82rem; color: var(--soft); margin: 4px 0 14px; }
 .empty { color: var(--soft); font-size: 0.9rem; }
+.note-search {
+  width: 100%; font: inherit; font-size: 0.92rem; padding: 8px 12px; margin-bottom: 14px;
+  border-radius: 8px; border: 1px solid var(--line);
+  background: var(--raised); color: var(--ink);
+}
 
 .note { margin-bottom: 14px; }
 .note textarea {

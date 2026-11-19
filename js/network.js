@@ -38,9 +38,11 @@ window.SO = window.SO || {};
     if (!navigator.onLine) { probeOk = false; update(); return Promise.resolve(); }
     if (!canProbe) { probeOk = true; update(); return Promise.resolve(); }   // opened as a file
     var ctl = new AbortController();
-    var timer = setTimeout(function () { ctl.abort(); }, 4000);
+    var timer = setTimeout(function () { ctl.abort(); }, 8000);
+    // Any answer from our server (even an error page) proves the internet works.
+    // Only a failed request (no answer at all) means we are offline.
     return fetch('ping.txt?t=' + Date.now(), { cache: 'no-store', signal: ctl.signal })
-      .then(function (r) { probeOk = r.ok; })
+      .then(function () { probeOk = true; })
       .catch(function () { probeOk = false; })
       .then(function () { clearTimeout(timer); update(); });
   }
