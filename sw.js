@@ -8,7 +8,7 @@
    IMPORTANT: when you change any app file, change CACHE_VERSION below so
    devices download the new files.
    ========================================================================== */
-var CACHE_VERSION = 'v4';
+var CACHE_VERSION = 'v5';
 var CACHE_NAME = 'studyoffline-shell-' + CACHE_VERSION;
 
 var APP_FILES = [
@@ -18,6 +18,9 @@ var APP_FILES = [
   'js/store.js',
   'js/audit.js',
   'js/network.js',
+  'js/vendor/supabase.js',
+  'js/config.js',
+  'js/server-sim.js',
   'js/server.js',
   'js/auth.js',
   'js/content.js',

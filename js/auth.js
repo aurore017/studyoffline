@@ -114,7 +114,7 @@ window.SO = window.SO || {};
       }
       email = email.trim().toLowerCase();
       return SO.Auth.hashPassword(email, password).then(function (hash) {
-        return SO.Server.register(name.trim(), email, hash).then(function (res) {
+        return SO.Server.register(name.trim(), email, password, hash).then(function (res) {
           return startSession(res.user, res.token, res.expiresAt, hash);
         });
       });
@@ -127,7 +127,7 @@ window.SO = window.SO || {};
       email = email.trim().toLowerCase();
       return SO.Auth.hashPassword(email, password).then(function (hash) {
         if (!SO.Network.isOnline()) return loginLocally(email, hash);
-        return SO.Server.login(email, hash).then(function (res) {
+        return SO.Server.login(email, password, hash).then(function (res) {
           return startSession(res.user, res.token, res.expiresAt, hash);
         }).catch(function (err) {
           if (err.code === 'NETWORK' || err.code === 'SERVER') return loginLocally(email, hash);
