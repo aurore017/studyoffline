@@ -4,7 +4,7 @@ An offline-first learning companion for ALU students. Read lessons and take
 notes with **no internet**. Everything syncs to your account when you are
 back online.
 
-- **Live app:** https://YOUR-SITE.netlify.app  <!-- replace with your Netlify address -->
+- **Live app:** https://studyoffline-9fgo.netlify.app/
 - **Demo video:** PASTE_VIDEO_LINK_HERE
 - **SRS document:** PASTE_SRS_LINK_HERE
 
