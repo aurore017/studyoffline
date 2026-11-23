@@ -51,7 +51,12 @@ window.SO = window.SO || {};
   }
 
   /* ---------- real backend ---------- */
-  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_KEY, {
+  // Keep only "https://xxxx.supabase.co": remove spaces and anything after it
+  // (for example a copied "/rest/v1/" ending, which causes "Invalid path specified in request URL").
+  var baseUrl = String(cfg.SUPABASE_URL).trim();
+  try { baseUrl = new URL(baseUrl).origin; } catch (e) { /* keep as typed */ }
+
+  var sb = window.supabase.createClient(baseUrl, String(cfg.SUPABASE_KEY).trim(), {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
   });
 
@@ -84,7 +89,11 @@ window.SO = window.SO || {};
     if (err.code === 'weak_password') {
       return makeError('INVALID', msg || 'Please choose a stronger password.');
     }
-    if (status === 401 || status === 403 || err.code === 'PGRST301' || err.code === '42501' || /jwt/.test(low)) {
+    if (err.code === '42501') {
+      // Postgres "permission denied" or a Row Level Security refusal: a database setup problem, not an expired login.
+      return makeError('SERVER', 'The database refused this request (' + msg + '). Run the GRANT lines of supabase_setup.sql in the Supabase SQL Editor.');
+    }
+    if (status === 401 || status === 403 || err.code === 'PGRST301' || /jwt/.test(low)) {
       return makeError('AUTH', 'Your session has expired. Please log out and log in again while online.');
     }
     return makeError('SERVER', msg || 'The account server is not responding');

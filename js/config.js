@@ -18,6 +18,6 @@
 window.SO = window.SO || {};
 
 SO.config = {
-  SUPABASE_URL: 'https://yjmczwheheddvqzzyxou.supabase.co/rest/v1/',
+  SUPABASE_URL: 'https://yjmczwheheddvqzzyxou.supabase.co',
   SUPABASE_KEY: 'sb_publishable_izgLc3a3I58LSKIa1pw59g_czGkSSVG'
 };
