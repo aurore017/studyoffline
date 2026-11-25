@@ -4,11 +4,9 @@ An offline-first learning companion for ALU students. Read lessons and take
 notes with **no internet**. Everything syncs to your account when you are
 back online.
 
-
-- **Live app:** https://studyoffline-9fgo.netlify.app/
 - **Live app:** https://studyoffline-9fgo.netlify.app
-- **Demo video:** PASTE_VIDEO_LINK_HERE
-- **SRS document:** PASTE_SRS_LINK_HERE
+- **Demo video:** https://drive.google.com/file/d/170vled3U5kqjtJU90PyCKzpNIaTDZonO/view?usp=sharing
+- **SRS document:** https://docs.google.com/document/d/1GPGD58mlA6sCOJ8hOD9IqXUF0Fn8r1QQV2dPIKXzyq8/edit?usp=sharing
 
 Built with plain HTML, CSS and JavaScript (no build step) and a
 [Supabase](https://supabase.com) backend (accounts + database).
@@ -43,15 +41,15 @@ cd studyoffline
 1. Go to <https://supabase.com>, sign up, and click **New project**. Name it `studyoffline`, choose a database password, and wait until the project is ready.
 2. Open **SQL Editor → New query**. Copy the whole file `database/supabase_setup.sql` from this repository, paste it in, and click **Run**. It creates the `lessons` and `notes` tables, the permissions (GRANT lines), the Row Level Security rules, and the six lessons.
 3. Open **Authentication → Sign In / Providers → Email** and switch **Confirm email** **off**, then **Save** (so new accounts can log in straight away).
-4. Open **Project Settings → Data API** and copy the **Project URL** (it looks like `https://xxxx.supabase.co`, with nothing after `.supabase.co`).
-5. Open **Project Settings → API Keys** and copy the **Publishable key** (`sb_publishable_...`, or the legacy `anon` key).
+4. Open **Project Settings → Data API** and copy the **Project URL** (it looks like `https://yjmczwheheddvqzzyxou.supabase.co`, with nothing after `.supabase.co`).
+5. Open **Project Settings → API Keys** and copy the **Publishable key** (`sb_publishable_izgLc3a3I58LSKIa1pw59g_czGkSSVG`, or the legacy `anon` key).
    Never use the `secret` or `service_role` key in this app.
 
 ### 2.4 Connect the app to your Supabase project
 Open `js/config.js` and replace the two placeholder values:
 ```js
-SUPABASE_URL: 'https://xxxx.supabase.co',
-SUPABASE_KEY: 'sb_publishable_...'
+SUPABASE_URL: 'https://yjmczwheheddvqzzyxou.supabase.co',
+SUPABASE_KEY: 'sb_publishable_izgLc3a3I58LSKIa1pw59g_czGkSSVG'
 ```
 (If you leave the `PASTE_...` text in place, the app runs with a simulated server inside the browser, so you can still try it without Supabase.)
 
